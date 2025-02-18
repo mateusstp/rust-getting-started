@@ -25,7 +25,9 @@ jobs:
           ls .
       - name: Build
         run: |
-          cd hello_world & cargo build --verbose
+          cd hello_world
+          cargo build --verbose
       - name:  Test
         run: |
-          cd hello_world & cargo test --verbose
+          cd hello_world
+          cargo test --verbose

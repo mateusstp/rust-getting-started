@@ -23,5 +23,9 @@ jobs:
       - name: List files
         run: |
           ls .
-      - run: cargo build --verbose
-      - run: cargo test --verbose
+      - name: Build
+        run: |
+          cd hello_world & cargo build --verbose
+      - name:  Test
+        run: |
+          cd hello_world & cargo test --verbose

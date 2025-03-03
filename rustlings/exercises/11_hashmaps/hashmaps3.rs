@@ -17,13 +17,13 @@ struct TeamScores {
 
 fn build_scores_table(results: &str) -> HashMap<&str, TeamScores> {
     // The name of the team is the key and its associated struct is the value.
-    let mut scores = HashMap::<&str, TeamScores>::new();
+    let mut scores: HashMap<&str, TeamScores> = HashMap::<&str, TeamScores>::new();
 
     for line in results.lines() {
         let mut split_iterator = line.split(',');
         // NOTE: We use `unwrap` because we didn't deal with error handling yet.
-        let team_1_name = split_iterator.next().unwrap();
-        let team_2_name = split_iterator.next().unwrap();
+        let team_1_name: &str = split_iterator.next().unwrap();
+        let team_2_name: &str = split_iterator.next().unwrap();
         let team_1_score: u8 = split_iterator.next().unwrap().parse().unwrap();
         let team_2_score: u8 = split_iterator.next().unwrap().parse().unwrap();
 
@@ -31,6 +31,37 @@ fn build_scores_table(results: &str) -> HashMap<&str, TeamScores> {
         // Keep in mind that goals scored by team 1 will be the number of goals
         // conceded by team 2. Similarly, goals scored by team 2 will be the
         // number of goals conceded by team 1.
+       /* My Solution
+        let ts1 = scores.get(team_1_name);
+        match ts1 {
+            Some(ts ) =>  {
+                scores.insert(team_1_name, TeamScores {goals_scored: team_1_score + ts.goals_scored,  goals_conceded: team_2_score + ts.goals_conceded});
+                } 
+            None =>  {
+                let tst1 = TeamScores {goals_scored: team_1_score,  goals_conceded: team_2_score};
+                scores.insert(team_1_name, tst1);
+                }   
+        }
+        
+        let ts2 = scores.get(team_2_name);
+        match ts2 {
+            Some(ts ) =>  {
+                scores.insert(team_2_name, TeamScores {goals_scored: team_2_score + ts.goals_scored,  goals_conceded: team_1_score + ts.goals_conceded});
+                } 
+            None =>  {
+                let tst2 = TeamScores {goals_scored: team_2_score,  goals_conceded: team_1_score};
+                scores.insert(team_2_name, tst2);
+                }   
+        } */
+
+        //    Rustling solution
+        let team_1 = scores.entry(team_1_name).or_default();
+        team_1.goals_scored += team_1_score;
+        team_1.goals_conceded +=  team_2_score;
+
+        let team_2 = scores.entry(team_2_name).or_default();
+        team_2.goals_scored += team_2_score;
+        team_2.goals_conceded +=  team_1_score;       
     }
 
     scores

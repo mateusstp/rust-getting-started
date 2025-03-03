@@ -1,6 +1,6 @@
 struct Point {
     x: u64,
-    y: u64,
+    y: u64
 }
 
 enum Message {
@@ -46,6 +46,29 @@ impl State {
     fn process(&mut self, message: Message) {
         // TODO: Create a match expression to process the different message
         // variants using the methods defined above.
+        match message {
+            Message::ChangeColor(r,g,b) => {
+                self.change_color(r, g, b);
+
+            }
+            Message::Echo(msg) => {
+                self.echo(msg);
+
+            }
+            Message::Move(point) => {
+                self.move_position(point);
+
+            }
+            Message::Resize{width:w, height: h} => { 
+                self.resize(w, h);
+            }
+            Message::Quit => {
+                self.quit();
+
+            }
+
+
+        }
     }
 }
 

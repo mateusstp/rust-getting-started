@@ -20,6 +20,7 @@ impl Message {
     }
 }
 
+
 fn main() {
     let messages = [
         Message::Resize {
